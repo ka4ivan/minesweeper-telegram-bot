@@ -1,0 +1,43 @@
+services:
+  bot:
+    build: .
+    container_name: ${COMPOSE_PROJECT_NAME}-bot
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - bot-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ${COMPOSE_PROJECT_NAME}-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - bot-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: ${COMPOSE_PROJECT_NAME}-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-botuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-botpass}
+      POSTGRES_DB: ${POSTGRES_DB:-botdb}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - bot-network
+
+volumes:
+  postgres_data:
+
+networks:
+  bot-network:
+    driver: bridge
