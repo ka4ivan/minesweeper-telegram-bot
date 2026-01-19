@@ -3,8 +3,12 @@ import logging
 import os
 
 from aiogram import Bot, Dispatcher
-from aiogram.enums import ParseMode
 from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+
+from bot.middlewares.i18n import I18nMiddleware
+from bot.utils.i18n import i18n
+from bot.handlers.start import router as start_router
 
 
 async def main():
@@ -21,7 +25,12 @@ async def main():
 
     dp = Dispatcher()
 
-    logging.info("🚀 Bot started (docker works)")
+    dp.message.middleware(I18nMiddleware())
+    dp.callback_query.middleware(I18nMiddleware())
+
+    dp.include_router(start_router)
+
+    logging.info("🚀 Bot started")
     await dp.start_polling(bot)
 
 

@@ -1,0 +1,8 @@
+services:
+  bot:
+    volumes:
+      - .:/app
+    command: >
+      watchfiles
+      "python -m bot.main"
+      /app
