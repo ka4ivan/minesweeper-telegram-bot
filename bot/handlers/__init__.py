@@ -1,7 +1,7 @@
 from .start import router as start_router
-# from .minesweeper import router as minesweeper_router
+from .game import router as game_router
 
 __all__ = [
     "start_router",
-    # "minesweeper_router",
+    "game_router",
 ]
