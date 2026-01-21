@@ -1,15 +1,17 @@
-from dataclasses import dataclass, field
-from typing import List, Optional
+from pydantic import BaseModel
 
-@dataclass
-class GameState:
+class GameState(BaseModel):
     user_id: int
-    mode: str
     width: int
     height: int
     mines: int
-    board: List[List[str]] = field(default_factory=list)  # E=empty, M=mine, 1-8=number
-    revealed: List[List[bool]] = field(default_factory=list)
-    flags: List[List[bool]] = field(default_factory=list)
-    is_over: bool = False
-    won: Optional[bool] = None
+    board: list[list[str]] = []
+    revealed: list[list[bool]] = []
+    flags: list[list[bool]] = []
+    status: str = "playing"  # playing | won | lost
+    first_click_done: bool = False
+
+    def generate_empty_board(self):
+        self.board = [["E" for _ in range(self.width)] for _ in range(self.height)]
+        self.revealed = [[False for _ in range(self.width)] for _ in range(self.height)]
+        self.flags = [[False for _ in range(self.width)] for _ in range(self.height)]
