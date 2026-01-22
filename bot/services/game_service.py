@@ -4,6 +4,7 @@ from bot.keyboards.game_keyboard import count_adjacent_mines
 from bot.models.cell_state import CellState
 from bot.models.game_mode import GameMode
 from bot.models.game_status import GameStatus
+from bot.models.reveal_result import RevealResult
 from bot.repositories.redis_repository import RedisRepository
 from bot.models.game_state import GameState
 
@@ -26,20 +27,23 @@ class GameService:
         await self.repo.save_game(game)
         return game
 
-    async def reveal_cell(self, user_id: int, x: int, y: int) -> GameState:
+    async def reveal_cell(self, user_id: int, x: int, y: int) -> RevealResult:
         game = await self.repo.load_game(user_id)
 
         if not game or game.status != GameStatus.PLAYING:
             game.status = GameStatus.END
-            return game
+            return RevealResult(game, changed=False)
 
-        if game.cells[x][y] != CellState.CLOSE:
-            return game
+        prev_state = game.cells[x][y]
+
+        if prev_state != CellState.CLOSE:
+            return RevealResult(game, changed=False)
 
         if not game.first_click_done:
             self._place_mines_safe_first_click(game, x, y)
             game.first_click_done = True
 
+        # 💥 mine
         if game.board[x][y] == "M":
             game.cells[x][y] = CellState.EXPLODE
             game.status = GameStatus.LOST
@@ -50,7 +54,7 @@ class GameService:
                         game.cells[i][j] = CellState.MINE
 
             await self.repo.save_game(game)
-            return game
+            return RevealResult(game, changed=True)
 
         self._flood_fill(game, x, y)
 
@@ -58,7 +62,9 @@ class GameService:
             game.status = GameStatus.WON
 
         await self.repo.save_game(game)
-        return game
+
+        changed = prev_state != game.cells[x][y]
+        return RevealResult(game, changed)
 
     def _place_mines_safe_first_click(self, game: GameState, safe_x: int, safe_y: int):
         safe_cells = set()

@@ -23,10 +23,14 @@ async def reveal_cell_handler(query: CallbackQuery):
     __, x, y = query.data.split(":")
     x, y = int(x), int(y)
 
-    game = await game_service.reveal_cell(query.from_user.id, x, y)
+    result = await game_service.reveal_cell(query.from_user.id, x, y)
+    game = result.game
 
     if game.status == GameStatus.END:
         await query.answer(_("Game over!"), show_alert=False)
+        return
+
+    if not result.changed:
         return
 
     if game.status == GameStatus.LOST:
