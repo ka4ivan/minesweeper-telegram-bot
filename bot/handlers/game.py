@@ -32,7 +32,7 @@ async def reveal_cell_handler(query: CallbackQuery):
     if game.status == GameStatus.LOST:
         await query.message.edit_text(
             _("💥 You hit a mine! Game over!"),
-            reply_markup=game_keyboard(game, exploded=(x, y))
+            reply_markup=game_keyboard(game)
         )
     elif game.status == GameStatus.WON:
         await query.message.edit_text(

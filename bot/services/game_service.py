@@ -1,6 +1,7 @@
 from random import randint
 
 from bot.keyboards.game_keyboard import count_adjacent_mines
+from bot.models.cell_state import CellState
 from bot.models.game_mode import GameMode
 from bot.models.game_status import GameStatus
 from bot.repositories.redis_repository import RedisRepository
@@ -27,11 +28,12 @@ class GameService:
 
     async def reveal_cell(self, user_id: int, x: int, y: int) -> GameState:
         game = await self.repo.load_game(user_id)
+
         if not game or game.status != GameStatus.PLAYING:
             game.status = GameStatus.END
             return game
 
-        if game.revealed[x][y]:
+        if game.cells[x][y] != CellState.CLOSE:
             return game
 
         if not game.first_click_done:
@@ -39,12 +41,14 @@ class GameService:
             game.first_click_done = True
 
         if game.board[x][y] == "M":
-            game.revealed[x][y] = True
+            game.cells[x][y] = CellState.EXPLODE
             game.status = GameStatus.LOST
+
             for i in range(game.height):
                 for j in range(game.width):
-                    if game.board[i][j] == "M":
-                        game.revealed[i][j] = True
+                    if game.board[i][j] == "M" and game.cells[i][j] != CellState.EXPLODE:
+                        game.cells[i][j] = CellState.MINE
+
             await self.repo.save_game(game)
             return game
 
@@ -75,10 +79,11 @@ class GameService:
                 mines_placed += 1
 
     def _flood_fill(self, game: GameState, x: int, y: int):
-        if game.revealed[x][y]:
+        if game.cells[x][y] != CellState.CLOSE:
             return
 
-        game.revealed[x][y] = True
+        game.cells[x][y] = CellState.OPEN
+
         if count_adjacent_mines(game.board, x, y) > 0:
             return
 
@@ -86,12 +91,11 @@ class GameService:
             for dy in (-1, 0, 1):
                 nx, ny = x + dx, y + dy
                 if 0 <= nx < game.height and 0 <= ny < game.width:
-                    if not game.revealed[nx][ny] and game.board[nx][ny] != "M":
-                        self._flood_fill(game, nx, ny)
+                    self._flood_fill(game, nx, ny)
 
     def _check_win(self, game: GameState) -> bool:
         for i in range(game.height):
             for j in range(game.width):
-                if game.board[i][j] != "M" and not game.revealed[i][j]:
+                if game.board[i][j] != "M" and game.cells[i][j] != CellState.OPEN:
                     return False
         return True

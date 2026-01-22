@@ -13,17 +13,17 @@ def start_keyboard() -> InlineKeyboardMarkup:
                 ),
                 InlineKeyboardButton(
                     text=_("🎮 7x7"),
-                    callback_data="game:" + GameMode.BEGINNER,
+                    callback_data="game:" + GameMode.INTERMEDIATE,
                 ),
                 InlineKeyboardButton(
                     text=_("🎮 8x12"),
-                    callback_data="game:" + GameMode.BEGINNER,
+                    callback_data="game:" + GameMode.EXPERT,
                 )
             ],
         [
             InlineKeyboardButton(
                 text=_("⚙️ Custom"),
-                callback_data="game:" + GameMode.BEGINNER,
+                callback_data="game:" + GameMode.CUSTOM,
             ),
         ]
         ]
