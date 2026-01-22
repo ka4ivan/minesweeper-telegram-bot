@@ -2,6 +2,7 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 from bot.keyboards.game_keyboard import game_keyboard
 from bot.dependencies import game_service
+from bot.models.game_status import GameStatus
 from bot.utils.i18n import _
 
 router = Router()
@@ -23,17 +24,17 @@ async def reveal_cell_handler(query: CallbackQuery):
     x, y = int(x), int(y)
 
     game = await game_service.reveal_cell(query.from_user.id, x, y)
-    print(game.status)
-    if game.status == "end":
+
+    if game.status == GameStatus.END:
         await query.answer(_("Game over!"), show_alert=False)
         return
 
-    if game.status == "lost":
+    if game.status == GameStatus.LOST:
         await query.message.edit_text(
             _("💥 You hit a mine! Game over!"),
             reply_markup=game_keyboard(game, exploded=(x, y))
         )
-    elif game.status == "won":
+    elif game.status == GameStatus.WON:
         await query.message.edit_text(
             _("🎉 You won!"),
             reply_markup=game_keyboard(game)

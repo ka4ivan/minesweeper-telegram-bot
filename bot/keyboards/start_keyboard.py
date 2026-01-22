@@ -1,4 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+from bot.models.game_mode import GameMode
 from bot.utils.i18n import _
 
 def start_keyboard() -> InlineKeyboardMarkup:
@@ -7,21 +9,21 @@ def start_keyboard() -> InlineKeyboardMarkup:
             [
                 InlineKeyboardButton(
                     text=_("🎮 5x5"),
-                    callback_data="game:beginner",
+                    callback_data="game:" + GameMode.BEGINNER,
                 ),
                 InlineKeyboardButton(
                     text=_("🎮 7x7"),
-                    callback_data="game:intermediate",
+                    callback_data="game:" + GameMode.BEGINNER,
                 ),
                 InlineKeyboardButton(
                     text=_("🎮 8x12"),
-                    callback_data="game:expert",
+                    callback_data="game:" + GameMode.BEGINNER,
                 )
             ],
         [
             InlineKeyboardButton(
                 text=_("⚙️ Custom"),
-                callback_data="game:custom",
+                callback_data="game:" + GameMode.BEGINNER,
             ),
         ]
         ]

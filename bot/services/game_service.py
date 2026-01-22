@@ -1,6 +1,8 @@
-from random import random, randint
+from random import randint
 
 from bot.keyboards.game_keyboard import count_adjacent_mines
+from bot.models.game_mode import GameMode
+from bot.models.game_status import GameStatus
 from bot.repositories.redis_repository import RedisRepository
 from bot.models.game_state import GameState
 
@@ -9,11 +11,11 @@ class GameService:
         self.repo = repo
 
     async def start_game(self, user_id: int, mode: str) -> GameState:
-        if mode == "beginner":
+        if mode == GameMode.BEGINNER:
             width, height, mines = 5, 5, 5
-        elif mode == "intermediate":
+        elif mode == GameMode.INTERMEDIATE:
             width, height, mines = 7, 7, 10
-        elif mode == "expert":
+        elif mode == GameMode.EXPERT:
             width, height, mines = 12, 8, 20
         else:
             width, height, mines = 5, 5, 5
@@ -25,8 +27,8 @@ class GameService:
 
     async def reveal_cell(self, user_id: int, x: int, y: int) -> GameState:
         game = await self.repo.load_game(user_id)
-        if not game or game.status != "playing":
-            game.status = "end"
+        if not game or game.status != GameStatus.PLAYING:
+            game.status = GameStatus.END
             return game
 
         if game.revealed[x][y]:
@@ -38,7 +40,7 @@ class GameService:
 
         if game.board[x][y] == "M":
             game.revealed[x][y] = True
-            game.status = "lost"
+            game.status = GameStatus.LOST
             for i in range(game.height):
                 for j in range(game.width):
                     if game.board[i][j] == "M":
@@ -49,7 +51,7 @@ class GameService:
         self._flood_fill(game, x, y)
 
         if self._check_win(game):
-            game.status = "won"
+            game.status = GameStatus.WON
 
         await self.repo.save_game(game)
         return game
