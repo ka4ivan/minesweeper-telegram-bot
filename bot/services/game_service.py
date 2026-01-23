@@ -46,7 +46,6 @@ class GameService:
             self._place_mines_safe_first_click(game, x, y)
             game.first_click_done = True
 
-        # 💥 mine
         if game.board[x][y] == "M":
             game.cells[x][y] = CellState.EXPLODE
             game.status = GameStatus.LOST
@@ -107,4 +106,10 @@ class GameService:
             for j in range(game.width):
                 if game.board[i][j] != "M" and game.cells[i][j] != CellState.OPEN:
                     return False
+
+        for i in range(game.height):
+            for j in range(game.width):
+                if game.board[i][j] == "M":
+                    game.cells[i][j] = CellState.MINE
+
         return True
