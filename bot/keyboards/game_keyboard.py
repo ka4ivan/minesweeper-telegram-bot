@@ -35,7 +35,7 @@ def game_keyboard(game) -> InlineKeyboardMarkup:
             row.append(
                 InlineKeyboardButton(
                     text=text,
-                    callback_data=f"reveal:{x}:{y}"
+                    callback_data=f"reveal:{game.game_id}:{x}:{y}"
                 )
             )
         keyboard.append(row)

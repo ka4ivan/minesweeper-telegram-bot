@@ -1,17 +1,18 @@
-from pydantic import BaseModel
-
 from bot.models.cell_state import CellState
 from bot.models.game_status import GameStatus
+from uuid import uuid4
+from pydantic import BaseModel, Field
 
 
 class GameState(BaseModel):
+    game_id: str = Field(default_factory=lambda: uuid4().hex)
     user_id: int
     width: int
     height: int
     mines: int
 
-    board: list[list[str]] = []          # "E" | "M"
-    cells: list[list[str]] = []          # CellState.*
+    board: list[list[str]] = []
+    cells: list[list[str]] = []
     status: str = GameStatus.PLAYING
     first_click_done: bool = False
 

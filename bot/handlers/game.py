@@ -20,11 +20,20 @@ async def game_start_handler(query: CallbackQuery):
 
 @router.callback_query(F.data.startswith("reveal:"))
 async def reveal_cell_handler(query: CallbackQuery):
-    __, x, y = query.data.split(":")
+    __, game_id, x, y = query.data.split(":")
     x, y = int(x), int(y)
 
-    result = await game_service.reveal_cell(query.from_user.id, x, y)
+    result = await game_service.reveal_cell(
+        user_id=query.from_user.id,
+        game_id=game_id,
+        x=x,
+        y=y
+    )
     game = result.game
+
+    if not game:
+        await query.answer(_("This game session is no longer active"), show_alert=False)
+        return
 
     if game.status == GameStatus.END:
         await query.answer(_("Game over!"), show_alert=False)

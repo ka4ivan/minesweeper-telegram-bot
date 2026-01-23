@@ -27,10 +27,13 @@ class GameService:
         await self.repo.save_game(game)
         return game
 
-    async def reveal_cell(self, user_id: int, x: int, y: int) -> RevealResult:
-        game = await self.repo.load_game(user_id)
+    async def reveal_cell(self, user_id: int, game_id: str, x: int, y: int) -> RevealResult:
+        game = await self.repo.load_game(user_id, game_id)
 
-        if not game or game.status != GameStatus.PLAYING:
+        if not game:
+            return RevealResult(None, changed=False)
+
+        if game.status != GameStatus.PLAYING:
             game.status = GameStatus.END
             return RevealResult(game, changed=False)
 
