@@ -1,5 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+from bot.constants.emoji import CELL_EMPTY, CELL_STATE_EMOJI
 from bot.models.cell_state import CellState
 
 
@@ -25,17 +26,11 @@ def game_keyboard(game) -> InlineKeyboardMarkup:
         for y in range(game.width):
             state = game.cells[x][y]
 
-            if state == CellState.CLOSE:
-                text = "▪️"
-            elif state == CellState.FLAG:
-                text = "🚩"
-            elif state == CellState.MINE:
-                text = "💣"
-            elif state == CellState.EXPLODE:
-                text = "💥"
-            else:  # OPEN
+            if state == CellState.OPEN:
                 count = count_adjacent_mines(game.board, x, y)
-                text = str(count) if count > 0 else "⬜"
+                text = str(count) if count > 0 else CELL_EMPTY
+            else:
+                text = CELL_STATE_EMOJI[state]
 
             row.append(
                 InlineKeyboardButton(
