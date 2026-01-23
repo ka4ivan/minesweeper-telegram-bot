@@ -18,7 +18,7 @@ class GameService:
         elif mode == GameMode.INTERMEDIATE:
             width, height, mines = 7, 7, 10
         elif mode == GameMode.EXPERT:
-            width, height, mines = 12, 8, 20
+            width, height, mines = 8, 12, 25
         else:
             width, height, mines = 5, 5, 5
 
