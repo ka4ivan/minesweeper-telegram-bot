@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
 from bot.keyboards.game_keyboard import game_keyboard
@@ -41,6 +43,9 @@ async def reveal_cell_handler(query: CallbackQuery):
 
     if not result.changed:
         return
+
+    if game.status in (GameStatus.WON, GameStatus.LOST):
+        game.end_at = datetime.now(timezone.utc)
 
     if game.status == GameStatus.LOST:
         await query.message.edit_text(

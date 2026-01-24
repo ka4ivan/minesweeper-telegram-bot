@@ -31,7 +31,7 @@ class GameService:
         else:
             width, height, mines = 5, 5, 5
 
-        game = GameState(user_id=user_id, width=width, height=height, mines=mines)
+        game = GameState(user_id=user_id, width=width, height=height, mines=mines, mode=mode)
         game.generate_empty_board()
         await self.repo.save_game(game)
         return game
@@ -115,6 +115,9 @@ class GameService:
         if not game.first_click_done:
             return RevealResult(game, False)
 
+        if state != CellState.FLAG and game.remaining_mines <= 0:
+            return RevealResult(game, False)
+
         game.cells[x][y] = (
             CellState.CLOSE if state == CellState.FLAG else CellState.FLAG
         )
@@ -164,6 +167,6 @@ class GameService:
         for i in range(game.height):
             for j in range(game.width):
                 if game.board[i][j] == "M" and game.cells[i][j] != CellState.FLAG:
-                    game.cells[i][j] = CellState.MINE
+                    game.cells[i][j] = CellState.FLAG
 
         return True

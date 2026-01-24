@@ -1,6 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from bot.constants.emoji import CELL_EMPTY, CELL_STATE_EMOJI
+from bot.constants.emoji import CELL_EMPTY, CELL_STATE_EMOJI, GAME_STATUS_EMOJI
 from bot.models.cell_state import CellState
 from bot.models.game_mode_action import GameAction
 from bot.utils.i18n import _
@@ -22,6 +22,25 @@ def count_adjacent_mines(board, x, y):
 
 def game_keyboard(game) -> InlineKeyboardMarkup:
     keyboard = []
+
+    # stats
+    minutes, seconds = divmod(game.time_spent, 60)
+    timer_text = f"{minutes:02d}:{seconds:02d}"
+
+    keyboard.append([
+        InlineKeyboardButton(
+            text=_("💣 {count}").format(count=game.remaining_mines),
+            callback_data="noop"
+        ),
+        InlineKeyboardButton(
+            text=GAME_STATUS_EMOJI[game.status],
+            callback_data="game:" + game.mode
+        ),
+        InlineKeyboardButton(
+            text=_("🕔 {time}").format(time=timer_text),
+            callback_data="noop"
+        )
+    ])
 
     # game
     for x in range(game.height):

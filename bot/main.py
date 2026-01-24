@@ -5,18 +5,12 @@ import os
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from redis.asyncio import Redis
 
+from bot.dependencies import redis
 from bot.middlewares.i18n import I18nMiddleware
-from bot.repositories.redis_repository import RedisRepository
-from bot.services.game_service import GameService
 from bot.handlers.start import router as start_router
 from bot.handlers.game import router as game_router
 from bot.handlers.custom import router as custom_router
-
-redis = Redis(host="redis", port=6379, decode_responses=True)
-redis_repo = RedisRepository(redis)
-game_service = GameService(repo=redis_repo)
 
 async def main():
     logging.basicConfig(level=logging.INFO)
