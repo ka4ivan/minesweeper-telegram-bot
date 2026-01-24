@@ -1,4 +1,5 @@
 from bot.models.cell_state import CellState
+from bot.models.game_mode_action import GameAction
 from bot.models.game_status import GameStatus
 from uuid import uuid4
 from pydantic import BaseModel, Field
@@ -15,6 +16,7 @@ class GameState(BaseModel):
     cells: list[list[str]] = []
     status: str = GameStatus.PLAYING
     first_click_done: bool = False
+    action_mode: str = GameAction.REVEAL
 
     def generate_empty_board(self):
         self.board = [["E" for _ in range(self.width)] for _ in range(self.height)]

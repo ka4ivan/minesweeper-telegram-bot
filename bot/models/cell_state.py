@@ -5,4 +5,5 @@ class CellState(str, Enum):
     OPEN = "open"
     MINE = "mine"
     FLAG = "flag"
+    MISTAKE = "mistake"
     EXPLODE = "explode"

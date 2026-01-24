@@ -2,6 +2,8 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from bot.constants.emoji import CELL_EMPTY, CELL_STATE_EMOJI
 from bot.models.cell_state import CellState
+from bot.models.game_mode_action import GameAction
+from bot.utils.i18n import _
 
 
 def count_adjacent_mines(board, x, y):
@@ -21,6 +23,7 @@ def count_adjacent_mines(board, x, y):
 def game_keyboard(game) -> InlineKeyboardMarkup:
     keyboard = []
 
+    # game
     for x in range(game.height):
         row = []
         for y in range(game.width):
@@ -39,5 +42,15 @@ def game_keyboard(game) -> InlineKeyboardMarkup:
                 )
             )
         keyboard.append(row)
+
+    # settings
+    mode_text = _("Mode: 🚩 Flag") if game.action_mode == GameAction.FLAG else _("Mode: 🧭 Reveal")
+
+    keyboard.append([
+        InlineKeyboardButton(
+            text=mode_text,
+            callback_data=f"mode:{game.game_id}"
+        )
+    ])
 
     return InlineKeyboardMarkup(inline_keyboard=keyboard)

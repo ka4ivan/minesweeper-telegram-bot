@@ -56,3 +56,25 @@ async def reveal_cell_handler(query: CallbackQuery):
         await query.message.edit_reply_markup(
             reply_markup=game_keyboard(game)
         )
+
+
+@router.callback_query(F.data.startswith("mode:"))
+async def switch_mode_handler(query: CallbackQuery):
+    __, game_id = query.data.split(":")
+    game = await game_service.toggle_mode(query.from_user.id, game_id)
+
+    if not game.first_click_done:
+        await query.answer(_("The game hasn’t started yet."), show_alert=False)
+        return
+
+    if not game:
+        await query.answer(_("This game session is no longer active"), show_alert=False)
+        return
+
+    if game.status == GameStatus.END:
+        await query.answer(_("Game over!"), show_alert=False)
+        return
+
+    await query.message.edit_reply_markup(
+        reply_markup=game_keyboard(game)
+    )
