@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-19 23:11+0200\n"
+"POT-Creation-Date: 2026-01-23 22:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
+#: bot/handlers/game.py:35
+msgid "This game session is no longer active"
+msgstr ""
+
+#: bot/handlers/game.py:39
+msgid "Game over!"
+msgstr ""
+
+#: bot/handlers/game.py:47
+msgid "💥 You hit a mine! Game over!"
+msgstr ""
+
+#: bot/handlers/game.py:52
+msgid "🎉 You won!"
+msgstr ""
+
 #: bot/handlers/start.py:14
 msgid ""
 "👋 Welcome!\n"
@@ -24,19 +40,19 @@ msgid ""
 "Press the button to start the game."
 msgstr ""
 
-#: bot/keyboards/start.py:9
+#: bot/keyboards/start_keyboard.py:11
 msgid "🎮 5x5"
 msgstr ""
 
-#: bot/keyboards/start.py:13
+#: bot/keyboards/start_keyboard.py:15
 msgid "🎮 7x7"
 msgstr ""
 
-#: bot/keyboards/start.py:17
+#: bot/keyboards/start_keyboard.py:19
 msgid "🎮 8x12"
 msgstr ""
 
-#: bot/keyboards/start.py:23
+#: bot/keyboards/start_keyboard.py:25
 msgid "⚙️ Custom"
 msgstr ""
 

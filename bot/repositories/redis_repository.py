@@ -1,5 +1,9 @@
 from redis.asyncio import Redis
+
+from bot.models.custom_settings import CustomSettings
 from bot.models.game_state import GameState
+
+CUSTOM_SETTINGS_KEY = "settings:custom:{user_id}"
 
 class RedisRepository:
     def __init__(self, redis: Redis):
@@ -16,3 +20,13 @@ class RedisRepository:
 
     async def delete_game(self, user_id: int):
         await self.redis.delete(f"game:{user_id}")
+
+    async def save_custom_settings(self, user_id: int, settings: CustomSettings):
+        await self.redis.set(
+            CUSTOM_SETTINGS_KEY.format(user_id=user_id),
+            settings.model_dump_json()
+        )
+
+    async def load_custom_settings(self, user_id: int) -> CustomSettings | None:
+        data = await self.redis.get(CUSTOM_SETTINGS_KEY.format(user_id=user_id))
+        return CustomSettings.model_validate_json(data) if data else None

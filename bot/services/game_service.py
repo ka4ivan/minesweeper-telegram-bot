@@ -2,6 +2,7 @@ from random import randint
 
 from bot.keyboards.game_keyboard import count_adjacent_mines
 from bot.models.cell_state import CellState
+from bot.models.custom_settings import CustomSettings
 from bot.models.game_mode import GameMode
 from bot.models.game_status import GameStatus
 from bot.models.reveal_result import RevealResult
@@ -19,6 +20,13 @@ class GameService:
             width, height, mines = 7, 7, 10
         elif mode == GameMode.EXPERT:
             width, height, mines = 8, 12, 25
+        elif mode == GameMode.CUSTOM:
+            settings = await self.repo.load_custom_settings(user_id)
+
+            if not settings:
+                width, height, mines = 7, 7, 10
+            else:
+                width, height, mines = settings.width, settings.height, settings.mines
         else:
             width, height, mines = 5, 5, 5
 
@@ -67,6 +75,9 @@ class GameService:
 
         changed = prev_state != game.cells[x][y]
         return RevealResult(game, changed)
+
+    async def save_custom_settings(self, user_id: int, settings: CustomSettings):
+        await self.repo.save_custom_settings(user_id, settings)
 
     def _place_mines_safe_first_click(self, game: GameState, safe_x: int, safe_y: int):
         safe_cells = set()

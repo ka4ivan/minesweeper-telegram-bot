@@ -12,6 +12,7 @@ from bot.repositories.redis_repository import RedisRepository
 from bot.services.game_service import GameService
 from bot.handlers.start import router as start_router
 from bot.handlers.game import router as game_router
+from bot.handlers.custom import router as custom_router
 
 redis = Redis(host="redis", port=6379, decode_responses=True)
 redis_repo = RedisRepository(redis)
@@ -35,6 +36,7 @@ async def main():
     dp.callback_query.middleware(I18nMiddleware())
 
     dp.include_router(start_router)
+    dp.include_router(custom_router)
     dp.include_router(game_router)
 
     logging.info("🚀 Bot started")
