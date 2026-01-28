@@ -19,9 +19,9 @@ class GameService:
         if mode == GameMode.BEGINNER:
             width, height, mines = 5, 5, 5
         elif mode == GameMode.INTERMEDIATE:
-            width, height, mines = 7, 7, 7 # TODO 10
+            width, height, mines = 7, 7, 10
         elif mode == GameMode.EXPERT:
-            width, height, mines = 8, 12, 12 # TODO 25
+            width, height, mines = 8, 12, 25
         elif mode == GameMode.CUSTOM:
             settings = await self.repo.load_custom_settings(user_id)
 

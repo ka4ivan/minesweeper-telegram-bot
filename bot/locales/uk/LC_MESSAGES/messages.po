@@ -1,4 +1,4 @@
-# Ukrainian translations for messages.
+# English translations for messages.
 # Copyright (C) 2026 ORGANIZATION
 # This file is distributed under the same license as the messages project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
@@ -7,13 +7,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-24 22:46+0200\n"
+"POT-Creation-Date: 2026-01-28 22:15+0200\n"
 "PO-Revision-Date: 2026-01-19 22:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: uk\n"
-"Language-Team: uk <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -54,28 +53,19 @@ msgstr ""
 
 #: bot/handlers/game.py:53
 msgid "💥 You hit a mine! Game over!"
-msgstr "💥 Нічого страшного, кицюнь. Спробуй ще, в тебе обов'язково получиться"
+msgstr ""
 
 #: bot/handlers/game.py:59 bot/handlers/game.py:74
 msgid "🎉 You won!"
-msgstr "Молодець, лапулька. Люблю тебе ❤️"
+msgstr ""
 
 #: bot/handlers/game.py:64
 msgid "🎉 Great job! 😎"
 msgstr ""
-"Нічого собі, золотце. Це реально круто пройти цей рівень, я пишаюсь "
-"тобою. Спробуєш пройти останню складність?"
 
 #: bot/handlers/game.py:69
 msgid "🎉 Incredible! 💥"
 msgstr ""
-"Дашуль, ти просто неймовірна! Я хочу бути поряд із тобою щодня, "
-"щосекунди. Ти найкраще, що зі мною могло статись. Я дуже-дуже-дуже тебе "
-"кохаю ❤️❤️❤️\n"
-"\n"
-"\n"
-"За твою перемогу на цьому рівні складності, ти заслужила будь-яку "
-"шоколадку, яку обереш"
 
 #: bot/handlers/game.py:89
 msgid "The game hasn’t started yet."
@@ -87,11 +77,6 @@ msgid ""
 "\n"
 "Press the button to start the game."
 msgstr ""
-"Привіт, кохана ❤️. Я хочу щоб ти пройшла всі рівні складності і почути "
-"твої враження і побажання \n"
-"\n"
-"<i>PS\n"
-"Цьомаю тебе 😘</i>"
 
 #: bot/keyboards/game_keyboard.py:32
 #, python-brace-format
@@ -113,17 +98,17 @@ msgstr ""
 
 #: bot/keyboards/start_keyboard.py:11
 msgid "🎮 5x5"
-msgstr "Легенько"
+msgstr ""
 
 #: bot/keyboards/start_keyboard.py:15
 msgid "🎮 7x7"
-msgstr "Складновато"
+msgstr ""
 
 #: bot/keyboards/start_keyboard.py:19
 msgid "🎮 8x12"
-msgstr "Дуже складно 😱"
+msgstr ""
 
 #: bot/keyboards/start_keyboard.py:25
 msgid "⚙️ Custom"
-msgstr "⚙️ Custom"
+msgstr ""
 
