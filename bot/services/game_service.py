@@ -8,12 +8,14 @@ from bot.models.game_mode import GameMode
 from bot.models.game_mode_action import GameAction
 from bot.models.game_status import GameStatus
 from bot.models.reveal_result import RevealResult
+from bot.repositories.postgres_repository import PostgresRepository
 from bot.repositories.redis_repository import RedisRepository
 from bot.models.game_state import GameState
 
 class GameService:
-    def __init__(self, repo: RedisRepository):
+    def __init__(self, repo: RedisRepository, stats_repo: PostgresRepository):
         self.repo = repo
+        self.stats_repo = stats_repo
 
     async def start_game(self, user_id: int, mode: str) -> GameState:
         if mode == GameMode.BEGINNER:
@@ -96,12 +98,14 @@ class GameService:
                         game.cells[i][j] = CellState.MISTAKE
 
             await self.repo.save_game(game)
+            await self.stats_repo.save_game_result(game)
             return RevealResult(game, True)
 
         self._flood_fill(game, x, y)
 
         if self._check_win(game):
             game.status = GameStatus.WON
+            await self.stats_repo.save_game_result(game)
 
         await self.repo.save_game(game)
 

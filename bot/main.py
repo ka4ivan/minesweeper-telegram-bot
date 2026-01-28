@@ -11,6 +11,8 @@ from bot.middlewares.i18n import I18nMiddleware
 from bot.handlers.start import router as start_router
 from bot.handlers.game import router as game_router
 from bot.handlers.custom import router as custom_router
+from bot.models.db.game_result import Base
+from bot.db import engine
 
 async def main():
     logging.basicConfig(level=logging.INFO)
@@ -32,6 +34,9 @@ async def main():
     dp.include_router(start_router)
     dp.include_router(custom_router)
     dp.include_router(game_router)
+
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
     logging.info("🚀 Bot started")
     try:
