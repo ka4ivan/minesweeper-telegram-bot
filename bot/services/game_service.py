@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from random import randint
 
 from bot.keyboards.game_keyboard import count_adjacent_mines
@@ -18,9 +19,9 @@ class GameService:
         if mode == GameMode.BEGINNER:
             width, height, mines = 5, 5, 5
         elif mode == GameMode.INTERMEDIATE:
-            width, height, mines = 7, 7, 10
+            width, height, mines = 7, 7, 7 # TODO 10
         elif mode == GameMode.EXPERT:
-            width, height, mines = 8, 12, 25
+            width, height, mines = 8, 12, 12 # TODO 25
         elif mode == GameMode.CUSTOM:
             settings = await self.repo.load_custom_settings(user_id)
 
@@ -81,6 +82,7 @@ class GameService:
         if not game.first_click_done:
             self._place_mines_safe_first_click(game, x, y)
             game.first_click_done = True
+            game.start_at = datetime.now(timezone.utc)
 
         if game.board[x][y] == "M":
             game.cells[x][y] = CellState.EXPLODE

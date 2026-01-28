@@ -25,7 +25,7 @@ def game_keyboard(game) -> InlineKeyboardMarkup:
 
     # stats
     minutes, seconds = divmod(game.time_spent, 60)
-    timer_text = f"{minutes:02d}:{seconds:02d}"
+    timer_text = "--:--" if not game.first_click_done else f"{minutes:02d}:{seconds:02d}"
 
     keyboard.append([
         InlineKeyboardButton(

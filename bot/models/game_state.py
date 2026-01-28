@@ -21,7 +21,7 @@ class GameState(BaseModel):
     first_click_done: bool = False
     action_mode: str = GameAction.REVEAL
 
-    start_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    start_at: datetime | None = None
     end_at: datetime | None = None
 
     def generate_empty_board(self):

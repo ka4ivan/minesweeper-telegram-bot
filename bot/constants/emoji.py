@@ -3,7 +3,7 @@ from bot.models.game_status import GameStatus
 
 CELL_STATE_EMOJI = {
     CellState.CLOSE: "◾️",
-    CellState.FLAG: "🚩",
+    CellState.FLAG: "❤️", # TODO 🚩
     CellState.MISTAKE: "🚫",
     CellState.MINE: "💣",
     CellState.EXPLODE: "💥",

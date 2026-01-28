@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: messages VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-23 22:17+0200\n"
+"POT-Creation-Date: 2026-01-24 22:46+0200\n"
 "PO-Revision-Date: 2026-01-19 22:49+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -19,20 +19,66 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: bot/handlers/game.py:35
+#: bot/handlers/custom.py:17
+msgid ""
+"Usage:\n"
+"<code>/custom 8 10 30</code> \n"
+"\n"
+"Setting:\n"
+"/custom <i>width</i> <i>height</i> <i>mines</i>"
+msgstr ""
+
+#: bot/handlers/custom.py:24
+msgid "Numbers only: /custom 8 10 30"
+msgstr ""
+
+#: bot/handlers/custom.py:27
+msgid "Board too small (min 5x5)"
+msgstr ""
+
+#: bot/handlers/custom.py:30
+msgid "Too many mines for this board size"
+msgstr ""
+
+#: bot/handlers/custom.py:37
+msgid "Now press Custom in start menu."
+msgstr ""
+
+#: bot/handlers/game.py:38 bot/handlers/game.py:93
 msgid "This game session is no longer active"
 msgstr ""
 
-#: bot/handlers/game.py:39
+#: bot/handlers/game.py:42 bot/handlers/game.py:97
 msgid "Game over!"
 msgstr ""
 
-#: bot/handlers/game.py:47
+#: bot/handlers/game.py:53
 msgid "💥 You hit a mine! Game over!"
-msgstr ""
+msgstr "💥 Нічого страшного, кицюнь. Спробуй ще, в тебе обов'язково получиться"
 
-#: bot/handlers/game.py:52
+#: bot/handlers/game.py:59 bot/handlers/game.py:74
 msgid "🎉 You won!"
+msgstr "Молодець, лапулька. Люблю тебе ❤️"
+
+#: bot/handlers/game.py:64
+msgid "🎉 Great job! 😎"
+msgstr ""
+"Нічого собі, золотце. Це реально круто пройти цей рівень, я пишаюсь "
+"тобою. Спробуєш пройти останню складність?"
+
+#: bot/handlers/game.py:69
+msgid "🎉 Incredible! 💥"
+msgstr ""
+"Дашуль, ти просто неймовірна! Я хочу бути поряд із тобою щодня, "
+"щосекунди. Ти найкраще, що зі мною могло статись. Я дуже-дуже-дуже тебе "
+"кохаю ❤️❤️❤️\n"
+"\n"
+"\n"
+"За твою перемогу на цьому рівні складності, ти заслужила будь-яку "
+"шоколадку, яку обереш"
+
+#: bot/handlers/game.py:89
+msgid "The game hasn’t started yet."
 msgstr ""
 
 #: bot/handlers/start.py:14
@@ -40,21 +86,44 @@ msgid ""
 "👋 Welcome!\n"
 "\n"
 "Press the button to start the game."
-msgstr "Привіт"
+msgstr ""
+"Привіт, кохана ❤️. Я хочу щоб ти пройшла всі рівні складності і почути "
+"твої враження і побажання \n"
+"\n"
+"<i>PS\n"
+"Цьомаю тебе 😘</i>"
+
+#: bot/keyboards/game_keyboard.py:32
+#, python-brace-format
+msgid "💣 {count}"
+msgstr ""
+
+#: bot/keyboards/game_keyboard.py:40
+#, python-brace-format
+msgid "🕔 {time}"
+msgstr ""
+
+#: bot/keyboards/game_keyboard.py:66
+msgid "Mode: 🚩 Flag"
+msgstr ""
+
+#: bot/keyboards/game_keyboard.py:66
+msgid "Mode: 🧭 Reveal"
+msgstr ""
 
 #: bot/keyboards/start_keyboard.py:11
 msgid "🎮 5x5"
-msgstr "🎮 5x5 UK"
+msgstr "Легенько"
 
 #: bot/keyboards/start_keyboard.py:15
 msgid "🎮 7x7"
-msgstr "🎮 7x7 UK"
+msgstr "Складновато"
 
 #: bot/keyboards/start_keyboard.py:19
 msgid "🎮 8x12"
-msgstr "🎮 8x12 UK"
+msgstr "Дуже складно 😱"
 
 #: bot/keyboards/start_keyboard.py:25
 msgid "⚙️ Custom"
-msgstr "⚙️ Custom UK"
+msgstr "⚙️ Custom"
 

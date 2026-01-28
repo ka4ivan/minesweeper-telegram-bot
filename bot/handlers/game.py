@@ -4,6 +4,7 @@ from aiogram import Router, F
 from aiogram.types import CallbackQuery
 from bot.keyboards.game_keyboard import game_keyboard
 from bot.dependencies import game_service
+from bot.models.game_mode import GameMode
 from bot.models.game_status import GameStatus
 from bot.utils.i18n import _
 
@@ -53,10 +54,26 @@ async def reveal_cell_handler(query: CallbackQuery):
             reply_markup=game_keyboard(game)
         )
     elif game.status == GameStatus.WON:
-        await query.message.edit_text(
-            _("🎉 You won!"),
-            reply_markup=game_keyboard(game)
-        )
+        if game.mode == GameMode.BEGINNER:
+            await query.message.edit_text(
+                _("🎉 You won!"),
+                reply_markup=game_keyboard(game)
+            )
+        elif game.mode == GameMode.INTERMEDIATE:
+            await query.message.edit_text(
+                _("🎉 Great job! 😎"),
+                reply_markup=game_keyboard(game)
+            )
+        elif game.mode == GameMode.EXPERT:
+            await query.message.edit_text(
+                _("🎉 Incredible! 💥"),
+                reply_markup=game_keyboard(game)
+            )
+        else:
+            await query.message.edit_text(
+                _("🎉 You won!"),
+                reply_markup=game_keyboard(game)
+            )
     else:
         await query.message.edit_reply_markup(
             reply_markup=game_keyboard(game)
