@@ -11,7 +11,8 @@ from bot.middlewares.i18n import I18nMiddleware
 from bot.handlers.start import router as start_router
 from bot.handlers.game import router as game_router
 from bot.handlers.custom import router as custom_router
-from bot.models.db.game_result import Base
+from bot.models.db.game import Base as GameModel
+from bot.models.db.user import Base as UserModel
 from bot.db import engine
 
 async def main():
@@ -35,10 +36,11 @@ async def main():
     dp.include_router(custom_router)
     dp.include_router(game_router)
 
-    # async with engine.begin() as conn:
-    #     await conn.run_sync(Base.metadata.create_all)
+    async with engine.begin() as conn:
+        await conn.run_sync(GameModel.metadata.create_all)
+        await conn.run_sync(UserModel.metadata.create_all)
 
-    logging.info("🚀 Bot started")
+    logging.info("Bot started")
     try:
         await dp.start_polling(bot)
     finally:

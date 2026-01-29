@@ -7,8 +7,8 @@ class Base(DeclarativeBase):
     pass
 
 
-class GameResult(Base):
-    __tablename__ = "game_results"
+class Game(Base):
+    __tablename__ = "games"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(index=True)
@@ -16,8 +16,8 @@ class GameResult(Base):
     width: Mapped[int]
     height: Mapped[int]
     mines: Mapped[int]
-    won: Mapped[bool]
-    duration: Mapped[int]
+    status: Mapped[str]
+    duration: Mapped[int] = mapped_column(default=0)
     created_at = Column(
         DateTime(timezone=True),
         server_default=func.now(),
