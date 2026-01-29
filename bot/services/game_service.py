@@ -98,14 +98,14 @@ class GameService:
                         game.cells[i][j] = CellState.MISTAKE
 
             await self.repo.save_game(game)
-            await self.stats_repo.save_game_result(game)
+            # await self.stats_repo.save_game_result(game)
             return RevealResult(game, True)
 
         self._flood_fill(game, x, y)
 
         if self._check_win(game):
             game.status = GameStatus.WON
-            await self.stats_repo.save_game_result(game)
+            # await self.stats_repo.save_game_result(game)
 
         await self.repo.save_game(game)
 
