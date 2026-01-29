@@ -5,11 +5,17 @@ import os
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
+from redis.asyncio import Redis
 
 from bot.middlewares.i18n import I18nMiddleware
-from bot.utils.i18n import i18n
+from bot.repositories.redis_repository import RedisRepository
+from bot.services.game_service import GameService
 from bot.handlers.start import router as start_router
+from bot.handlers.game import router as game_router
 
+redis = Redis(host="redis", port=6379, decode_responses=True)
+redis_repo = RedisRepository(redis)
+game_service = GameService(repo=redis_repo)
 
 async def main():
     logging.basicConfig(level=logging.INFO)
@@ -29,10 +35,14 @@ async def main():
     dp.callback_query.middleware(I18nMiddleware())
 
     dp.include_router(start_router)
+    dp.include_router(game_router)
 
     logging.info("🚀 Bot started")
-    await dp.start_polling(bot)
-
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await bot.session.close()
+        await redis.close()
 
 if __name__ == "__main__":
     asyncio.run(main())
