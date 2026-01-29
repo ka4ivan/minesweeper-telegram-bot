@@ -1,4 +1,6 @@
-class GameMode:
+from enum import Enum
+
+class GameMode(str, Enum):
     BEGINNER = "beginner"
     INTERMEDIATE = "intermediate"
     EXPERT = "expert"
