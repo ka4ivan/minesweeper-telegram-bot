@@ -10,4 +10,4 @@ redis = Redis(host=os.getenv("REDIS_HOST"), port=int(os.getenv("REDIS_PORT")), d
 redis_repo = RedisRepository(redis)
 pg_repo = PostgresRepository()
 
-game_service = GameService(repo=redis_repo, stats_repo=pg_repo)
+game_service = GameService(repo=redis_repo, postgres_repo=pg_repo)
